@@ -1,0 +1,11 @@
+body {
+	padding-top:50px;
+},
+#todo-list {
+	margin-bottom: 30px; 
+}
+.line-thorugh {
+	color:black;
+	text-decoration:line-through;
+	-webkit-text-fill-color: darkgrey;
+}
