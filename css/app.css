@@ -9,3 +9,15 @@ body {
 	text-decoration:line-through;
 	-webkit-text-fill-color: darkgrey;
 }
+a.disabled {
+    color: #888;
+}
+.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.enabled {
+    pointer-events: visible;
+    cursor: auto;
+}
