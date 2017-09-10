@@ -5,28 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Being Smart Todo App</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/app.css">
 </head>
 <body ng-controller="todoController">
 	<div class="container">
 		<div class="jumbotron text-center">
-      <h1>I'm a Todo-aholic <span class="label label-info"></span></h1>
+      <h1>My Today's Task to complete<span class="label label-info"></span></h1>
     </div>
-		<div id="todo-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
- 				<div class="checkbox" ng-repeat="task in todoList">
-          <label>
-            <input type="checkbox"> {{task.todo}} - {{task.date|date:"MM/dd/yyyy 'at' h:mm:ss"}}
-          </label>
+		<div id="todo-list" class="row" ng-repeat="task in todoList" ng-if="task.archive == false">
+			<div class="col-sm-8 col-sm-offset-4">
+ 				<div class="checkbox">
+          <div class="col-sm-12" ng-if="!task.edit">
+            <input type="checkbox" ng-model="checked"> 
+            <span ng-class="{'line-thorugh': checked }">
+              {{task.todo}} - {{task.createdAt|date:"MM/dd/yyyy 'at' h:mm:ss"}}
+            </span>
+          </div>
+          <div class="col-sm-12" ng-if="task.edit">
+            <input type="text" ng-model="editAbleTodo.todo">
+          </div>
         </div>
 			</div>
+      <div lass="col-sm-4">
+        <a ng-if="!task.edit" ng-click="updateTodo(task); task.edit = true">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        </a>
+        <a ng-if ="task.edit" ng-click="editTodo(task)">
+          <i class="fa fa-check-square" aria-hidden="true"></i>
+        </a>
+        <a ng-if ="task.edit" ng-click="task.edit = false">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+        <a ng-if ="!task.edit" ng-click="deleteTodo(task)">
+          <i class="fa fa-trash-o" aria-hidden="true"></i>
+        </a>
+      </div>
  		</div>
  		<div class="row">
       <div class="col-sm-8 col-sm-offset-2 text-center">
         <form>
           <div class="form-group">
             <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-            <input type="text" class="form-control input-lg text-center" placeholder="Make you todolist" ng-model="todo">
+            <input type="text" class="form-control input-lg text-center" placeholder="Make you todolist" ng-model="todo" required="true">
           </div>
           <!-- createToDo() WILL CREATE NEW TODOS -->
           <button type="submit" class="btn btn-primary btn-lg" ng-click="addTodo(todo)">Add</button><br/>
@@ -41,6 +62,7 @@
 <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.js"></script>
 <script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
 <script type="text/javascript" src="./js/app.js"></script>
+<script type="text/javascript" src="./js/services/todoservice.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
