@@ -23,21 +23,21 @@
             </span>
           </div>
           <div class="col-sm-12" ng-if="task.edit">
-            <input type="text" ng-model="editAbleTodo.todo">
+            <input type="text" ng-model="editAbleTodo.todo" style="width: 100%; border-left: 1px solid;">
           </div>
         </div>
 			</div>
-      <div lass="col-sm-4">
-        <a ng-if="!task.edit" ng-click="updateTodo(task); task.edit = true">
+      <div class="col-sm-4" >
+        <a ng-if="!task.edit" ng-click="updateTodo(task); task.edit = true" class="{{toggle}}">
           <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
         </a>
         <a ng-if ="task.edit" ng-click="editTodo(task)">
           <i class="fa fa-check-square" aria-hidden="true"></i>
         </a>
-        <a ng-if ="task.edit" ng-click="task.edit = false">
+        <a ng-if ="task.edit" ng-click="cancel(); task.edit = false">
           <i class="fa fa-times" aria-hidden="true"></i>
         </a>
-        <a ng-if ="!task.edit" ng-click="deleteTodo(task)">
+        <a ng-if ="!task.edit" ng-click="deleteTodo(task)" class="{{toggle}}">
           <i class="fa fa-trash-o" aria-hidden="true"></i>
         </a>
       </div>

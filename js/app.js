@@ -41,6 +41,7 @@ app.controller('todoController', ['$scope', 'todoService', '$cookies', '$locatio
 		$scope.todo = ''
 	};
   $scope.updateTodo = function (task) {
+  	$scope.toggle = 'disabled';
   	$scope.editAbleTodo = JSON.parse(JSON.stringify(task));
   }
 	$scope.editTodo = function (editTodo) {
@@ -55,7 +56,11 @@ app.controller('todoController', ['$scope', 'todoService', '$cookies', '$locatio
 		.catch(function (err){
 			console.log("Error While Editing", err);
 		});
+		$scope.toggle = 'enabled';
 	};
+  $scope.cancel = function () {
+  	$scope.toggle = 'enabled';
+  }
 
 	$scope.deleteTodo = function (todo) {
 		todoService.deleteTodo({todo: todo}).$promise
