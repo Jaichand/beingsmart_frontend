@@ -1,8 +1,9 @@
-var app = angular.module('smartBeing', ['ngResource', 'ngCookies'])
+var app = angular.module('smartBeing', ['ngResource', 'ngCookies', 'dropzone'])
 app.controller('todoController', ['$scope', 'todoService', '$cookies', '$location', 
 	function($scope, todoService, $cookies, $location){
 	$scope.todoList = [];
 	$scope.checked = false;
+	$scope.url = '/home/jaichand/beingSmart/beingsmart_backend/'
 	if (!$cookies.get('user')){
 		//First time it will call if cookie is not set
 		todoService.getAllTodo({user: $cookies.get('user')}).$promise
@@ -58,6 +59,7 @@ app.controller('todoController', ['$scope', 'todoService', '$cookies', '$locatio
 		});
 		$scope.toggle = 'enabled';
 	};
+
   $scope.cancel = function () {
   	$scope.toggle = 'enabled';
   }
@@ -71,4 +73,18 @@ app.controller('todoController', ['$scope', 'todoService', '$cookies', '$locatio
 			console.log("Error while deleting", err);
 		})
 	};
+	$scope.dropzoneConfig = {
+    'options': { // passed into the Dropzone constructor
+      'url': 'http://localhost:8081/api/upload',
+      'headers': {
+        'X-CSRFToken': $cookies.get('user')
+    	}
+    },
+    'eventHandlers': {
+      'sending': function (file, xhr, formData) {
+      },
+      'success': function (file, response) {
+      }
+    }
+	 };
 }]);

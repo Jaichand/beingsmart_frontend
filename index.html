@@ -6,14 +6,16 @@
 	<title>Being Smart Todo App</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/basic.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/app.css">
 </head>
-<body ng-controller="todoController">
+<body ng-controller="todoController" ng-cloak>
 	<div class="container">
 		<div class="jumbotron text-center">
       <h1>My Today's Task to complete<span class="label label-info"></span></h1>
     </div>
-		<div id="todo-list" class="row" ng-repeat="task in todoList" ng-if="task.archive == false">
+		<div id="todo-list" class="row" ng-repeat="task in todoList" ng-if="task.archive == false && !task.attachment.length">
 			<div class="col-sm-8 col-sm-offset-4">
  				<div class="checkbox">
           <div class="col-sm-12" ng-if="!task.edit">
@@ -54,6 +56,25 @@
         </form>
       </div>
     </div>
+    <div ng-repeat="task in todoList" class="row" ng-if="task.archive == false && task.attachment.length">
+      <div class="col-sm-8 col-sm-offset-4">
+        <a href="{{task.attachment[0].url}}" target="_blank">{{task.attachment[0].originalName}}</a>
+      </div>
+      <div class="col-sm-4">
+        <a ng-click="deleteTodo(task)">
+          <i class="fa fa-trash-o" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2 text-center">
+        <form action="/file-upload" class="dropzone" id="dropzone" dropzone="dropzoneConfig">
+          <div class="fallback">
+            <input name="file" type="file" multiple />
+          </div>
+        </form>
+      </div> 
+    </div>
 	</div>
 </body>
 <script type="text/javascript" src="bower_components/angular/angular.js"></script>
@@ -63,7 +84,12 @@
 <script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
 <script type="text/javascript" src="./js/app.js"></script>
 <script type="text/javascript" src="./js/services/todoservice.js"></script>
+<script type="text/javascript" src="./js/directive/fileUpload.js"></script>
+<script type="text/javascript" src="./dropzone/dropzone.js"></script>
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script type="text/javascript">
+  Dropzone.autoDiscover = false;
+</script>
 </html>
